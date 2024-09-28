@@ -68,13 +68,16 @@
 
     <br>
 
-    <div id="fortuneMessage">
+    <div id="fortuneContainer">
         <button class="btn" id="fortuneButton" onclick="showFortune()">Kliknij mnie, aby otrzymać cytat!</button>
+        <div id="fortuneMessage" style="display:none;"></div>
     </div>
 
     <br>
 
-    <button class="btn" id="confettiButton" onClick="showMessage()">Kliknij mnie, aby otrzymać życzenia!</button>
+    <div id="confettiButton" >
+        <button class="btn" id="confettiButton" onclick="showMessage()">Kliknij mnie, aby otrzymać życzenia!</button>
+    </div>
     
     <br>
 
@@ -83,16 +86,23 @@
         <h2>Dużo zdrowia, uśmiechu i sukcesów!</h2>
     </div>
 
-    <div id="confetti"></div>
+    <div id="interactive" class="hidden">
+        <h1>Wpisz swoje imię, aby otrzymać specjalne życzenia!</h1>
+    <input type="text" id="nameInput" placeholder="Twoje imię">
+    <button onclick="generateMessage()">Pokaż życzenia</button>
+    <p id="greetingMessage"></p>
+    </div>
 
     <script>
         // Funkcja, która wyświetla wiadomość po kliknięciu przycisku
         function showMessage() {
             const messageDiv = document.getElementById('message');
-            const button = document.getElementById('confettiButton');
+            document.getElementById("confettiButton").style.display = "none";
             const quoteDiv = document.getElementById('quotes');
             document.querySelector('.btn').style.display = 'none';
             document.getElementById('message').classList.remove('hidden');
+            document.getElementById('interactive').classList.remove('hidden');
+            document.getElementById('generateMessage').classList.remove('hidden');
             startConfetti();
         }
 
@@ -139,8 +149,8 @@
             }, 50);
         }
 
-        // Tworzenie konfetti co 100 ms
-        setInterval(createConfetti, 100);
+        // Tworzenie konfetti co 30 ms
+        setInterval(createConfetti, 30);
 
 
         // Animacja spadania konfetti
@@ -167,27 +177,50 @@
             "Niezależnie od tego, co robisz, rób to z pasją.",
             "Uśmiechaj się, a świat uśmiechnie się do Ciebie!",
             "Przyszłość należy do tych, którzy wierzą w piękno swoich marzeń.",
-            "Nie bój się wstać i spróbować jeszcze raz."
+            "Nie bój się wstać i spróbować jeszcze raz.",
+            "Prawdziwy mężczyzna to nie ten, kto ma wiele, ale ten, kto potrafi docenić to, co ma.",
+            "Najlepsi mężczyźni to ci, którzy potrafią być zarówno silni, jak i delikatni.",
+            "Dzień Chłopaka to tylko przypomnienie, że każdy z Was jest wyjątkowy na swój sposób.",
+            "Bycie prawdziwym mężczyzną oznacza nieustanne dążenie do stania się lepszą wersją siebie."
         ];
 
+        // function showFortune() {
+        //     const fortuneMessageDiv = document.getElementById('fortuneMessage');
+        //     const button = document.getElementById('fortuneButton');
+
+        //     // Wybierz losową wiadomość z tablicy fortunes
+        //     const randomIndex = Math.floor(Math.random() * fortunes.length);
+        //     const fortuneMessage = fortunes[randomIndex];
+
+        //     // Pokaż wiadomość
+        //     fortuneMessageDiv.innerText = fortuneMessage;
+        //     fortuneMessageDiv.style.display = 'block'; // Pokaż wiadomość
+
+        // }
+    
         function showFortune() {
-            const fortuneMessageDiv = document.getElementById('fortuneMessage');
-            const button = document.getElementById('fortuneButton');
+    const fortuneMessageDiv = document.getElementById('fortuneMessage');
+    const button = document.getElementById('fortuneButton');
 
-            // Wybierz losową wiadomość z tablicy fortunes
-            const randomIndex = Math.floor(Math.random() * fortunes.length);
-            const fortuneMessage = fortunes[randomIndex];
+    // Wybierz losową wiadomość z tablicy fortunes
+    const randomIndex = Math.floor(Math.random() * fortunes.length);
+    const fortuneMessage = fortunes[randomIndex];
 
-            // Pokaż wiadomość
-            fortuneMessageDiv.innerText = fortuneMessage;
-            fortuneMessageDiv.style.display = 'block'; // Pokaż wiadomość
+    // Pokaż wiadomość
+    fortuneMessageDiv.innerText = fortuneMessage;
+    fortuneMessageDiv.style.display = 'block'; // Pokaż wiadomość
 
+    // Ukryj przycisk
+    button.style.display = 'none';
+}
+    
+        function generateMessage() {
+            let name = document.getElementById('nameInput').value;
+            let message = `Wszystkiego najlepszego, ${name}! Niech każdy dzień będzie pełen radości i przygód!`;
+            document.getElementById('greetingMessage').innerText = message;
+            document.getElementById('showButton').style.display = 'none';
         }
 
-        document.getElementById("presentation-button").onclick = function() {
-        var container = document.getElementById("presentation-container");
-        container.style.display = container.style.display === "none" ? "block" : "none";
-    }
     </script>
 
 </body>
