@@ -20,15 +20,14 @@
             font-size: 24px;
             color: #333;
         }
-        #confetti {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0.8;
+            pointer-events: none; /* Ignoruje zdarzenia myszki */
         }
+        
         .btn {
             display: inline-block;
             padding: 10px 20px;
@@ -67,20 +66,17 @@
         "Najlepszym przyjacielem jest ten, który zawsze stoi przy tobie, nawet gdy wszyscy inni odchodzą."
     </div>
 
-    <div>
-        <h6>Nie potrafie ogarnąć przycisków, więc najpierw naciśnij przycisk "cytat" czy coś, a potem "kliknij mnie!" XD</h6>
+    <br>
+
+    <div id="fortuneMessage">
+        <button class="btn" id="fortuneButton" onclick="showFortune()">Kliknij mnie, aby otrzymać cytat!</button>
     </div>
 
     <br>
 
-    <button class="btn" id="fortuneButton" onclick="showFortune()">Kliknij mnie, aby otrzymać cytat!</button>
-
-    <div id="fortuneMessage"></div>
-
-    <br>
-
-    <button class="btn" id="confettiButton" onClick="showMessage()">Kliknij mnie!</button>
+    <button class="btn" id="confettiButton" onClick="showMessage()">Kliknij mnie, aby otrzymać życzenia!</button>
     
+    <br>
 
     <div id="message" class="hidden">
         <h2>Wielkie życzenia dla wszystkich chłopaków z klasy!</h2>
@@ -101,20 +97,50 @@
         }
 
         // Konfetti - prosty efekt
-        function startConfetti() {
-            const confettiContainer = document.getElementById('confetti');
-            for (let i = 0; i < 100; i++) {
-                const confetti = document.createElement('div');
-                confetti.style.position = 'absolute';
-                confetti.style.width = '8px';
-                confetti.style.height = '16px';
-                confetti.style.backgroundColor = getRandomColor();
-                confetti.style.top = Math.random() * 100 + '%';
-                confetti.style.left = Math.random() * 150 + '%';
-                confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
-                confettiContainer.appendChild(confetti);
-            }
+        // function startConfetti() {
+        //     const confettiContainer = document.getElementById('confetti');
+        //     for (let i = 0; i < 100; i++) {
+        //         const confetti = document.createElement('div');
+        //         confetti.style.position = 'absolute';
+        //         confetti.style.width = '8px';
+        //         confetti.style.height = '16px';
+        //         confetti.style.backgroundColor = getRandomColor();
+        //         confetti.style.top = Math.random() * 100 + '%';
+        //         confetti.style.left = Math.random() * 150 + '%';
+        //         confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+        //         confettiContainer.appendChild(confetti);
+        //     }
+        // }
+
+        function getRandomColor() {
+            const colors = ['#0839ff', '#00fc23', '#ff2303', '#fa02e5', '#ffd000'];
+            return colors[Math.floor(Math.random() * colors.length)];
         }
+
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.backgroundColor = getRandomColor();
+            confetti.style.left = Math.random() * window.innerWidth + 'px'; // Losowa pozycja na szerokość
+            confetti.style.top = '0px'; // Zaczyna od góry
+
+            document.body.appendChild(confetti);
+
+            // Animacja opadania
+            setTimeout(() => {
+                confetti.style.transition = 'top 2s linear, transform 2s';
+                confetti.style.top = window.innerHeight + 'px'; // Opada do dołu
+                confetti.style.transform = `translateX(${(Math.random() - 0.5) * 100}px)`; // Losowy ruch w poziomie
+
+                // Usuwanie elementu po animacji
+                setTimeout(() => {
+                    document.body.removeChild(confetti);
+                }, 2000);
+            }, 50);
+        }
+
+        // Tworzenie konfetti co 100 ms
+        setInterval(createConfetti, 100);
 
 
         // Animacja spadania konfetti
@@ -128,10 +154,11 @@
         `);
 
         // Funkcja do losowania kolorów konfetti
-        function getRandomColor() {
-            const colors = ['#0839ff', '#00fc23', '#ff2303', '#fa02e5', '#ffd000'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
+        // function getRandomColor() {
+        //     const colors = ['#0839ff', '#00fc23', '#ff2303', '#fa02e5', '#ffd000'];
+        //     return colors[Math.floor(Math.random() * colors.length)];
+        // }
+        
 
         const fortunes = [
             "Sukces jest wynikiem przygotowania, ciężkiej pracy i uczenia się z porażek.",
@@ -156,6 +183,11 @@
             fortuneMessageDiv.style.display = 'block'; // Pokaż wiadomość
 
         }
+
+        document.getElementById("presentation-button").onclick = function() {
+        var container = document.getElementById("presentation-container");
+        container.style.display = container.style.display === "none" ? "block" : "none";
+    }
     </script>
 
 </body>
